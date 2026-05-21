@@ -2,32 +2,184 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ID照会システム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID照会 - 漂泊ノ海</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        input { margin-bottom: 10px; display: block; padding: 5px; width: 250px; }
-        button { padding: 5px 15px; cursor: pointer; }
-        #results { margin-top: 20px; }
-        .error { color: red; }
+        /* 漂泊ノ海の深みと静寂を表現するカラーパレット */
+        :root {
+            --bg-color: #0b1325; /* 深い海や夜空の色 */
+            --text-main: #e2e8f0; /* オフホワイト（手紙の文字） */
+            --text-sub: #94a3b8; /* 少し暗めの文字 */
+            --accent-color: #60a5fa; /* 希望や星明かりを感じる淡い青 */
+            --card-bg: rgba(255, 255, 255, 0.05); /* 半透明のカード背景 */
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            color: var(--text-main);
+        }
+
+        /* 検索ボックスの装飾 */
+        .search-box {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-main);
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input::placeholder {
+            color: var(--text-sub);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color);
+            color: #0b1325;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #93c5fd;
+        }
+
+        /* 検索結果のカードレイアウト */
+        #results {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* IDの圧倒的強調 */
+        .card-id {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .card-id span {
+            font-size: 14px;
+            color: var(--text-sub);
+            font-weight: normal;
+            margin-right: 8px;
+            letter-spacing: normal;
+        }
+
+        .card-details {
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.8;
+        }
+
+        .card-details span {
+            color: var(--text-sub);
+            margin-right: 5px;
+            display: inline-block;
+            width: 60px;
+        }
+
+        .error {
+            color: #fca5a5;
+            text-align: center;
+            padding: 20px;
+            background: rgba(248, 113, 113, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .message {
+            text-align: center;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
-    <h1>ID照会システム</h1>
-    <input type="text" id="name" placeholder="差出人名を入力">
-    <input type="text" id="title" placeholder="タイトルを入力">
-    <button onclick="search()">検索</button>
+    <div class="container">
+        <h1>ID照会システム</h1>
+        
+        <div class="search-box">
+            <input type="text" id="name" placeholder="想い人の名前、または自身の名前">
+            <input type="text" id="title" placeholder="手紙のタイトルに記した言葉">
+            <button onclick="search()">手紙を探す</button>
+        </div>
 
-    <div id="results"></div>
+        <div id="results"></div>
+    </div>
 
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
+
+        // Enterキーで検索を実行できるようにする処理
+        document.getElementById('name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') search();
+        });
+        document.getElementById('title').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') search();
+        });
 
         async function search() {
             const name = document.getElementById('name').value;
             const title = document.getElementById('title').value;
             const resDiv = document.getElementById('results');
             
-            resDiv.innerHTML = "検索中...";
+            resDiv.innerHTML = "<p class='message'>水底を探しています...</p>";
 
             try {
                 const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
@@ -36,16 +188,23 @@
                 if (result.status === "error") {
                     resDiv.innerHTML = `<p class="error">${result.message}</p>`;
                 } else {
-                    let html = "<ul>";
-                    // 修正箇所：ID, 投函日, 差出人, タイトルの順に表示
+                    let html = "";
                     result.data.forEach(item => {
-                        html += `<li>ID: ${item.id} / 投函日: ${item.date} / 差出人: ${item.name} / タイトル: ${item.title}</li>`;
+                        html += `
+                            <div class="card">
+                                <div class="card-id"><span>ID:</span>${item.id}</div>
+                                <div class="card-details">
+                                    <div><span>投函日</span>${item.date}</div>
+                                    <div><span>差出人</span>${item.name}</div>
+                                    <div><span>標題</span>${item.title}</div>
+                                </div>
+                            </div>
+                        `;
                     });
-                    html += "</ul>";
                     resDiv.innerHTML = html;
                 }
             } catch (err) {
-                resDiv.innerHTML = "<p class='error'>エラーが発生しました。時間を置いて再度お試しください。</p>";
+                resDiv.innerHTML = "<p class='error'>接続が途切れました。少し時間をおいて再度お試しください。</p>";
             }
         }
     </script>
