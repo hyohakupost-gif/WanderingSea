@@ -1,415 +1,268 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="app_title">漂泊ノ海 ID照会システム</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script>
+    const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
 
-    <style>
-        :root {
-            --bg-color: #0b1325;
-            --text-main: #e2e8f0;
-            --text-sub: #94a3b8;
-            --accent-color: #60a5fa;
-            --card-bg: rgba(255, 255, 255, 0.05);
+    let translations = {};
+
+    // 現在の検索制御
+    let currentController = null;
+    let isSearching = false;
+
+    const nameInput = document.getElementById('name');
+    const titleInput = document.getElementById('title');
+    const resultsDiv = document.getElementById('results');
+    const searchButton = document.getElementById('searchButton');
+
+    // Enter検索
+    nameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !isSearching) {
+            search();
         }
+    });
 
-        body {
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN',
-                'Hiragino Sans', Meiryo, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+    titleInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !isSearching) {
+            search();
         }
+    });
 
-        .container {
-            max-width: 600px;
-            width: 100%;
+    // ボタン検索
+    searchButton.addEventListener('click', () => {
+        if (!isSearching) {
+            search();
         }
+    });
 
-        h1 {
-            text-align: center;
-            font-weight: 300;
-            letter-spacing: 3px;
-            margin-bottom: 40px;
-            color: var(--text-main);
-        }
-
-        .lang-switcher {
-            text-align: center;
-            margin-top: 40px;
-            margin-bottom: 20px;
-        }
-
-        .lang-switcher button {
-            width: auto;
-            padding: 8px 20px;
-            margin: 0 5px;
-            cursor: pointer;
-            background: var(--card-bg);
-            border: 1px solid var(--text-sub);
-            color: var(--text-main);
-            border-radius: 20px;
-            transition: 0.3s;
-        }
-
-        .lang-switcher button:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-        }
-
-        .search-box {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #334155;
-            border-radius: 6px;
-            background: rgba(0, 0, 0, 0.2);
-            color: var(--text-main);
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: #0b1325;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-left: 4px solid var(--accent-color);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .card-id {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .copy-icon {
-            font-size: 24px;
-            color: var(--text-sub);
-            cursor: pointer;
-            transition: color 0.2s;
-            user-select: none;
-        }
-
-        .copy-icon:hover {
-            color: var(--text-main);
-        }
-
-        .card-details span {
-            color: var(--text-sub);
-            margin-right: 5px;
-            display: inline-block;
-            width: 60px;
-        }
-
-        .description {
-            text-align: center;
-            color: var(--text-sub);
-            margin-bottom: 30px;
-            line-height: 1.6;
-            font-size: 0.9em;
-        }
-
-        .error {
-            color: #fca5a5;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .message {
-            text-align: center;
-            color: var(--text-sub);
-            padding: 20px;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-
-        <h1 data-i18n="app_title">漂泊ノ海 ID照会システム</h1>
-
-        <div class="description">
-            <span data-i18n="description_part1"></span><br>
-            <span data-i18n="description_part2"></span><br>
-            <span id="description-tail"></span>
-        </div>
-
-        <div class="search-box">
-            <input type="text" id="name" data-i18n-placeholder="placeholder_name">
-            <input type="text" id="title" data-i18n-placeholder="placeholder_title">
-
-            <button id="searchButton" data-i18n="button_search">
-                手紙を探す
-            </button>
-        </div>
-
-        <div id="results"></div>
-
-        <div class="lang-switcher">
-            <button onclick="setLang('ja')">JP</button>
-            <button onclick="setLang('en')">EN</button>
-        </div>
-
-    </div>
-
-    <footer style="
-        text-align: center;
-        margin-top: 20px;
-        padding: 20px;
-        color: var(--text-sub);
-        font-size: 0.8em;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    ">
-        &copy; 2026 漂泊ノ海駅長
-    </footer>
-
-    <script>
-        const SCRIPT_URL =
-            "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
-
-        let translations = {};
-
-        // 最新検索のみ有効化するためのID
-        let currentSearchId = 0;
-
-        const nameInput = document.getElementById('name');
-        const titleInput = document.getElementById('title');
-        const resultsDiv = document.getElementById('results');
-        const searchButton = document.getElementById('searchButton');
-
-        // Enter検索
-        nameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') search();
-        });
-
-        titleInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') search();
-        });
-
-        // 検索ボタン
-        searchButton.addEventListener('click', search);
-
-        // 言語読み込み
-        async function loadLanguage() {
+    // 言語ファイル読み込み
+    async function loadLanguage() {
+        try {
             const res = await fetch('language.json');
             translations = await res.json();
 
             setLang(localStorage.getItem('lang') || 'ja');
+
+        } catch (err) {
+            console.error('language.json の読み込みに失敗:', err);
+        }
+    }
+
+    // 言語切替
+    function setLang(lang) {
+
+        if (!translations[lang]) return;
+
+        localStorage.setItem('lang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+
+            if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+
+            if (translations[lang][key]) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+
+        const t = translations[lang];
+
+        const linkHtml = `
+            <a
+                href="https://youtu.be/uoa8-pQY838?si=Fsja-1kfuoj4hcCf&t=87"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--accent-color);"
+            >
+                ${escapeHtml(t.link_how_to)}
+            </a>
+        `;
+
+        document.getElementById('description-tail').innerHTML =
+            t.description_tail.replace('[link_how_to]', linkHtml);
+    }
+
+    // XSS対策
+    function escapeHtml(str) {
+
+        if (str == null) return "";
+
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    // コピー処理
+    function copyId(id, iconEl) {
+
+        navigator.clipboard.writeText(id).then(() => {
+
+            const original = iconEl.innerText;
+
+            iconEl.innerText = "check";
+            iconEl.style.color = "var(--accent-color)";
+
+            setTimeout(() => {
+                iconEl.innerText = original;
+                iconEl.style.color = "";
+            }, 1500);
+        });
+    }
+
+    // カード生成
+    function createCard(item, lang) {
+
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // ID部分
+        const cardId = document.createElement('div');
+        cardId.className = 'card-id';
+
+        const idSpan = document.createElement('span');
+        idSpan.textContent = item.id;
+
+        const copyIcon = document.createElement('span');
+        copyIcon.className = 'material-icons copy-icon';
+        copyIcon.textContent = 'content_copy';
+        copyIcon.title = 'コピー';
+
+        copyIcon.addEventListener('click', () => {
+            copyId(item.id, copyIcon);
+        });
+
+        cardId.appendChild(idSpan);
+        cardId.appendChild(copyIcon);
+
+        // 詳細部分
+        const details = document.createElement('div');
+        details.className = 'card-details';
+
+        const dateDiv = document.createElement('div');
+        dateDiv.innerHTML =
+            `<span>${escapeHtml(translations[lang].label_date)}</span>${escapeHtml(item.date)}`;
+
+        const senderDiv = document.createElement('div');
+        senderDiv.innerHTML =
+            `<span>${escapeHtml(translations[lang].label_sender)}</span>${escapeHtml(item.name)}`;
+
+        const titleDiv = document.createElement('div');
+        titleDiv.innerHTML =
+            `<span>${escapeHtml(translations[lang].label_title)}</span>${escapeHtml(item.title)}`;
+
+        details.appendChild(dateDiv);
+        details.appendChild(senderDiv);
+        details.appendChild(titleDiv);
+
+        card.appendChild(cardId);
+        card.appendChild(details);
+
+        return card;
+    }
+
+    // 検索処理
+    async function search() {
+
+        // 既存検索を中断
+        if (currentController) {
+            currentController.abort();
         }
 
-        // 言語切替
-        function setLang(lang) {
-            localStorage.setItem('lang', lang);
+        currentController = new AbortController();
 
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
+        isSearching = true;
 
-                if (translations[lang][key]) {
-                    el.innerText = translations[lang][key];
+        const lang = localStorage.getItem('lang') || 'ja';
+
+        const name = nameInput.value.trim();
+        const title = titleInput.value.trim();
+
+        // 結果初期化
+        resultsDiv.innerHTML = "";
+
+        // 入力チェック
+        if (name.length < 2 && title.length < 2) {
+
+            resultsDiv.innerHTML =
+                `<p class="error">${escapeHtml(translations[lang].error_input)}</p>`;
+
+            isSearching = false;
+            return;
+        }
+
+        // ボタン無効化
+        searchButton.disabled = true;
+
+        // 検索中表示
+        resultsDiv.innerHTML =
+            `<p class="message">${escapeHtml(translations[lang].status_searching)}</p>`;
+
+        try {
+
+            const response = await fetch(
+                `${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`,
+                {
+                    signal: currentController.signal
                 }
-            });
+            );
 
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
+            const result = await response.json();
 
-                if (translations[lang][key]) {
-                    el.placeholder = translations[lang][key];
-                }
-            });
-
-            const t = translations[lang];
-
-            const linkHtml = `
-                <a
-                    href="https://youtu.be/uoa8-pQY838?si=Fsja-1kfuoj4hcCf&t=87"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="color: var(--accent-color);"
-                >
-                    ${escapeHtml(t.link_how_to)}
-                </a>
-            `;
-
-            document.getElementById('description-tail').innerHTML =
-                t.description_tail.replace('[link_how_to]', linkHtml);
-        }
-
-        // XSS対策
-        function escapeHtml(str) {
-            if (str == null) return "";
-
-            return String(str)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        // コピー処理
-        function copyId(id, iconEl) {
-            navigator.clipboard.writeText(id).then(() => {
-                const original = iconEl.innerText;
-
-                iconEl.innerText = "check";
-                iconEl.style.color = "var(--accent-color)";
-
-                setTimeout(() => {
-                    iconEl.innerText = original;
-                    iconEl.style.color = "";
-                }, 1500);
-            });
-        }
-
-        async function search() {
-
-            // 最新検索IDを更新
-            const searchId = ++currentSearchId;
-
-            const lang = localStorage.getItem('lang') || 'ja';
-
-            const name = nameInput.value.trim();
-            const title = titleInput.value.trim();
-
-            // 検索結果リセット
-            resultsDiv.innerHTML = "";
-
-            // 入力チェック
-            if (name.length < 2 && title.length < 2) {
-                resultsDiv.innerHTML =
-                    `<p class="error">${escapeHtml(translations[lang].error_input)}</p>`;
+            // Abort済みなら無視
+            if (currentController.signal.aborted) {
                 return;
             }
 
-            // ボタン無効化
-            searchButton.disabled = true;
+            resultsDiv.innerHTML = "";
 
-            // 検索中表示
-            resultsDiv.innerHTML =
-                `<p class="message">${escapeHtml(translations[lang].status_searching)}</p>`;
-
-            try {
-
-                const response = await fetch(
-                    `${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`
-                );
-
-                const result = await response.json();
-
-                // 古い検索結果なら破棄
-                if (searchId !== currentSearchId) {
-                    return;
-                }
-
-                resultsDiv.innerHTML = "";
-
-                if (result.status === "error") {
-
-                    resultsDiv.innerHTML =
-                        `<p class="error">${escapeHtml(result.message)}</p>`;
-
-                    return;
-                }
-
-                if (!result.data || result.data.length === 0) {
-
-                    resultsDiv.innerHTML =
-                        `<p class="message">No results found.</p>`;
-
-                    return;
-                }
-
-                result.data.forEach(item => {
-
-                    const card = document.createElement('div');
-                    card.className = 'card';
-
-                    const cardId = document.createElement('div');
-                    cardId.className = 'card-id';
-
-                    const idSpan = document.createElement('span');
-                    idSpan.textContent = item.id;
-
-                    const copyIcon = document.createElement('span');
-                    copyIcon.className = 'material-icons copy-icon';
-                    copyIcon.textContent = 'content_copy';
-                    copyIcon.title = 'コピー';
-
-                    copyIcon.addEventListener('click', () => {
-                        copyId(item.id, copyIcon);
-                    });
-
-                    cardId.appendChild(idSpan);
-                    cardId.appendChild(copyIcon);
-
-                    const details = document.createElement('div');
-                    details.className = 'card-details';
-
-                    details.innerHTML = `
-                        <div><span>${escapeHtml(translations[lang].label_date)}</span>${escapeHtml(item.date)}</div>
-                        <div><span>${escapeHtml(translations[lang].label_sender)}</span>${escapeHtml(item.name)}</div>
-                        <div><span>${escapeHtml(translations[lang].label_title)}</span>${escapeHtml(item.title)}</div>
-                    `;
-
-                    card.appendChild(cardId);
-                    card.appendChild(details);
-
-                    resultsDiv.appendChild(card);
-                });
-
-            } catch (err) {
-
-                // 古い検索なら表示しない
-                if (searchId !== currentSearchId) {
-                    return;
-                }
+            // エラー
+            if (result.status === "error") {
 
                 resultsDiv.innerHTML =
-                    `<p class="error">${escapeHtml(translations[lang].error_connection)}</p>`;
+                    `<p class="error">${escapeHtml(result.message)}</p>`;
 
-            } finally {
-
-                // 最新検索のみボタン復帰
-                if (searchId === currentSearchId) {
-                    searchButton.disabled = false;
-                }
+                return;
             }
-        }
 
-        window.addEventListener('load', loadLanguage);
-    </script>
-</body>
-</html>
+            // データなし
+            if (!result.data || result.data.length === 0) {
+
+                resultsDiv.innerHTML =
+                    `<p class="message">No results found.</p>`;
+
+                return;
+            }
+
+            // カード描画
+            result.data.forEach(item => {
+                resultsDiv.appendChild(createCard(item, lang));
+            });
+
+        } catch (err) {
+
+            // Abortは正常動作なので無視
+            if (err.name === 'AbortError') {
+                return;
+            }
+
+            console.error(err);
+
+            resultsDiv.innerHTML =
+                `<p class="error">${escapeHtml(translations[lang].error_connection)}</p>`;
+
+        } finally {
+
+            isSearching = false;
+            searchButton.disabled = false;
+        }
+    }
+
+    window.addEventListener('load', loadLanguage);
+</script>
