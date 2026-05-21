@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ID照会システム</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        input { margin-bottom: 10px; display: block; padding: 5px; width: 250px; }
+        button { padding: 5px 15px; cursor: pointer; }
+        #results { margin-top: 20px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>ID照会システム</h1>
+    <input type="text" id="name" placeholder="差出人名を入力">
+    <input type="text" id="title" placeholder="タイトルを入力">
+    <button onclick="search()">検索</button>
+
+    <div id="results"></div>
+
+    <script>
+        // 先ほど取得したURLをここに貼り付けます
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
+
+        async function search() {
+            const name = document.getElementById('name').value;
+            const title = document.getElementById('title').value;
+            const resDiv = document.getElementById('results');
+            
+            resDiv.innerHTML = "検索中...";
+
+            try {
+                // GASへリクエスト送信
+                const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
+                const result = await response.json();
+
+                if (result.status === "error") {
+                    resDiv.innerHTML = `<p class="error">${result.message}</p>`;
+                } else {
+                    let html = "<ul>";
+                    result.data.forEach(item => {
+                        html += `<li>ID: ${item.id} / タイトル: ${item.title} / 差出人: ${item.name}</li>`;
+                    });
+                    html += "</ul>";
+                    resDiv.innerHTML = html;
+                }
+            } catch (err) {
+                resDiv.innerHTML = "<p class='error'>エラーが発生しました。時間を置いて再度お試しください。</p>";
+            }
+        }
+    </script>
+</body>
+</html>
