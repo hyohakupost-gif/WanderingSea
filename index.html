@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>漂泊ノ海-ID照会システム</title>
     <style>
-        /* 漂泊ノ海の深みと静寂を表現するカラーパレット */
+        
         :root {
-            --bg-color: #0b1325; /* 深い海や夜空の色 */
-            --text-main: #e2e8f0; /* オフホワイト（手紙の文字） */
-            --text-sub: #94a3b8; /* 少し暗めの文字 */
-            --accent-color: #60a5fa; /* 希望や星明かりを感じる淡い青 */
-            --card-bg: rgba(255, 255, 255, 0.05); /* 半透明のカード背景 */
+            --bg-color: #0b1325; 
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --accent-color: #60a5fa;
+            --card-bg: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -163,11 +163,11 @@
 <div class="description">
     見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、<br>
     該当のお手紙にたどり着くことが可能です。
-    駅内でのID検索方法につきましては、<a href="https://youtu.be/uoa8-pQY838?si=Fsja-1kfuoj4hcCf&t=80">こちら</a>をご参照ください。
+    駅内でのID検索方法につきましては、<a href="https://youtu.be/uoa8-pQY838?si=Fsja-1kfuoj4hcCf&t=80" target="_blank" rel="noopener noreferrer">こちら</a>をご参照ください。
 </div>
         <div class="search-box">
-            <input type="text" id="name" placeholder="想い人の名前、または自身の名前">
-            <input type="text" id="title" placeholder="手紙のタイトルに記した言葉">
+            <input type="text" id="name" placeholder="差出人のお名前">
+            <input type="text" id="title" placeholder="お手紙のタイトル">
             <button onclick="search()">手紙を探す</button>
         </div>
 
