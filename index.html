@@ -163,7 +163,7 @@ async function search() {
 
             // ▼ 追加：両方空欄の場合のブロック処理 ▼
             if (name === "" && title === "") {
-                resDiv.innerHTML = "<p class='error'>差出人のお名前、またはタイトルのどちらかを入力してください。</p>";
+                resDiv.innerHTML = "<p class='error'>差出人のお名前、またはタイトルの少なくともどちらかを入力してください。</p>";
                 return; // ここで処理を終了し、通信を行わない
             }
 
