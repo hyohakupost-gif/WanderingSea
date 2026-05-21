@@ -155,10 +155,18 @@
         document.getElementById('name').addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
         document.getElementById('title').addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
 
-        async function search() {
-            const name = document.getElementById('name').value;
-            const title = document.getElementById('title').value;
+async function search() {
+            // .trim() をつけることで、スペースだけの入力も空欄として弾きます
+            const name = document.getElementById('name').value.trim();
+            const title = document.getElementById('title').value.trim();
             const resDiv = document.getElementById('results');
+
+            // ▼ 追加：両方空欄の場合のブロック処理 ▼
+            if (name === "" && title === "") {
+                resDiv.innerHTML = "<p class='error'>差出人のお名前、またはタイトルのどちらかを入力してください。</p>";
+                return; // ここで処理を終了し、通信を行わない
+            }
+
             resDiv.innerHTML = "<p class='message'>海を探しています...</p>";
             try {
                 const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
