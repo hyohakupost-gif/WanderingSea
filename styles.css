@@ -1,0 +1,54 @@
+:root {
+    --bg-color: #0b1325;
+    --text-main: #e2e8f0;
+    --text-sub: #94a3b8;
+    --accent-color: #60a5fa;
+    --card-bg: rgba(255,255,255,0.05);
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container { max-width: 600px; width: 100%; }
+
+h1 { text-align: center; font-weight: 300; letter-spacing: 3px; margin-bottom: 40px; color: var(--text-main); }
+
+.description { text-align: center; color: var(--text-sub); margin-bottom: 30px; line-height: 1.6; font-size: 0.9em; }
+
+.search-box { background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin-bottom: 30px; }
+
+input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #334155; border-radius: 6px; background: rgba(0,0,0,0.2); color: var(--text-main); font-size: 16px; box-sizing: border-box; }
+
+button { width: 100%; padding: 12px; background-color: var(--accent-color); color: #0b1325; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+
+button:disabled { opacity: 0.6; cursor: wait; }
+
+.card { background: var(--card-bg); border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 8px; margin-bottom: 15px; }
+
+.card-id { font-size: 28px; font-weight: bold; color: var(--accent-color); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+
+.copy-icon { font-size: 24px; color: var(--text-sub); cursor: pointer; transition: color 0.2s; user-select: none; }
+
+.copy-icon:hover { color: var(--text-main); }
+
+.card-details { line-height: 1.8; }
+
+.card-details span { color: var(--text-sub); margin-right: 5px; display: inline-block; width: 80px; }
+
+.lang-switcher { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+
+.lang-switcher button { width: auto; padding: 8px 20px; margin: 0 5px; background: var(--card-bg); border: 1px solid var(--text-sub); color: var(--text-main); border-radius: 20px; }
+
+.lang-switcher button:hover { background: var(--accent-color); color: var(--bg-color); }
+
+.message { text-align: center; color: var(--text-sub); padding: 20px; }
+
+.error { text-align: center; color: #fca5a5; padding: 20px; }
