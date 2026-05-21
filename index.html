@@ -100,13 +100,12 @@
             padding-bottom: 8px;
         }
 
-        /* コピーアイコン用の設定（横幅が伸びない） */
         .copy-icon {
             font-size: 24px;
             color: var(--text-sub);
             cursor: pointer;
             transition: color 0.2s;
-            user-select: none; /* アイコン自体がテキスト選択されるのを防ぐ */
+            user-select: none;
         }
         .copy-icon:hover { color: var(--text-main); }
 
@@ -122,7 +121,6 @@
     <div class="container">
         <h1>漂泊ノ海 ID照会システム</h1>
         <div class="description">
-            VRChatのワールド「漂泊ノ海-Wandering Sea-」内のお手紙IDを検索することができます。<br>
             見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、<br>
             該当のお手紙にたどり着くことが可能です。<br>
             駅内でのID検索方法につきましては、<a href="https://youtu.be/uoa8-pQY838?si=Fsja-1kfuoj4hcCf&t=87" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">こちら</a>をご参照ください。
@@ -140,13 +138,24 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
 
+        // XSS対策：特殊文字を無害化する関数
+        function escapeHtml(str) {
+            if (!str) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         // アイコン押下時のコピー処理
         function copyId(id, iconEl) {
             navigator.clipboard.writeText(id).then(() => {
-                iconEl.innerText = "check"; // コピー完了時にチェックマークに変更
+                iconEl.innerText = "check";
                 iconEl.style.color = "var(--accent-color)";
                 setTimeout(() => {
-                    iconEl.innerText = "content_copy"; // 1.5秒後に元のアイコンに戻す
+                    iconEl.innerText = "content_copy";
                     iconEl.style.color = "";
                 }, 1500);
             });
@@ -155,43 +164,43 @@
         document.getElementById('name').addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
         document.getElementById('title').addEventListener('keypress', (e) => { if (e.key === 'Enter') search(); });
 
-async function search() {
-            // .trim() をつけることで、スペースだけの入力も空欄として弾きます
+        async function search() {
             const name = document.getElementById('name').value.trim();
             const title = document.getElementById('title').value.trim();
             const resDiv = document.getElementById('results');
 
-            // ▼ 追加：両方空欄の場合のブロック処理 ▼
-            if (name === "" && title === "") {
-                resDiv.innerHTML = "<p class='error'>差出人のお名前、またはタイトルの少なくともどちらかを入力してください。</p>";
-                return; // ここで処理を終了し、通信を行わない
+            // 総当たり対策：どちらも2文字未満の場合は処理を中断
+            if (name.length < 2 && title.length < 2) {
+                resDiv.innerHTML = "<p class='error'>検索には、差出人または標題に2文字以上の入力が必要です。</p>";
+                return;
             }
 
             resDiv.innerHTML = "<p class='message'>海を探しています...</p>";
             try {
                 const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
                 const result = await response.json();
+                
                 if (result.status === "error") {
-                    resDiv.innerHTML = `<p class="error">${result.message}</p>`;
+                    resDiv.innerHTML = `<p class="error">${escapeHtml(result.message)}</p>`;
                 } else {
                     let html = "";
                     result.data.forEach(item => {
                         html += `
                             <div class="card">
                                 <div class="card-id">
-                                    <span>${item.id}</span>
-                                    <span class="material-icons copy-icon" onclick="copyId('${item.id}', this)" title="コピー">content_copy</span>
+                                    <span>${escapeHtml(item.id)}</span>
+                                    <span class="material-icons copy-icon" onclick="copyId('${escapeHtml(item.id)}', this)" title="コピー">content_copy</span>
                                 </div>
                                 <div class="card-details">
-                                    <div><span>投函日</span>${item.date}</div>
-                                    <div><span>差出人</span>${item.name}</div>
-                                    <div><span>標題</span>${item.title}</div>
+                                    <div><span>投函日</span>${escapeHtml(item.date)}</div>
+                                    <div><span>差出人</span>${escapeHtml(item.name)}</div>
+                                    <div><span>標題</span>${escapeHtml(item.title)}</div>
                                 </div>
                             </div>`;
                     });
                     resDiv.innerHTML = html;
                 }
-            } catch (err) { resDiv.innerHTML = "<p class='error'>接続が途切れました。</p>"; }
+            } catch (err) { resDiv.innerHTML = "<p class='error'>接続が途切れました。少し時間をおいて再度お試しください。</p>"; }
         }
     </script>
     <footer style="text-align: center; margin-top: 50px; padding: 20px; color: var(--text-sub); font-size: 0.8em; border-top: 1px solid rgba(255, 255, 255, 0.1);">
