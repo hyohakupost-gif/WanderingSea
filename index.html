@@ -100,18 +100,16 @@
             padding-bottom: 8px;
         }
 
-.copy-btn {
-            font-size: 12px;
-            color: var(--text-sub);
-            cursor: pointer;
-            padding: 4px 12px;
-            border: 1px solid var(--text-sub);
-            border-radius: 4px;
+        .copy-btn {
             background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
             transition: 0.2s;
-            white-space: nowrap; /* 文字が折り返されないようにする */
-            flex-shrink: 0;      /* ボタンが縮まないようにする */
         }
+.copy-btn:hover { color: var(--accent-color); }
         .copy-btn:hover { color: var(--text-main); border-color: var(--text-main); }
 
         .card-details { font-size: 14px; color: var(--text-main); line-height: 1.8; }
