@@ -20,7 +20,6 @@
     <div id="results"></div>
 
     <script>
-        // 先ほど取得したURLをここに貼り付けます
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
 
         async function search() {
@@ -31,7 +30,6 @@
             resDiv.innerHTML = "検索中...";
 
             try {
-                // GASへリクエスト送信
                 const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
                 const result = await response.json();
 
@@ -39,8 +37,9 @@
                     resDiv.innerHTML = `<p class="error">${result.message}</p>`;
                 } else {
                     let html = "<ul>";
+                    // 修正箇所：ID, 投函日, 差出人, タイトルの順に表示
                     result.data.forEach(item => {
-                        html += `<li>ID: ${item.id} / タイトル: ${item.title} / 差出人: ${item.name}</li>`;
+                        html += `<li>ID: ${item.id} / 投函日: ${item.date} / 差出人: ${item.name} / タイトル: ${item.title}</li>`;
                     });
                     html += "</ul>";
                     resDiv.innerHTML = html;
