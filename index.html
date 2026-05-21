@@ -77,39 +77,44 @@
 
         function escapeHtml(str) { return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"); }
 
-        async function search() {
-            const lang = localStorage.getItem('lang') || 'ja';
-            const name = document.getElementById('name').value.trim();
-            const title = document.getElementById('title').value.trim();
-            const resDiv = document.getElementById('results');
+async function search() {
+                const lang = localStorage.getItem('lang') || 'ja';
+                const name = document.getElementById('name').value.trim();
+                const title = document.getElementById('title').value.trim();
+                const resDiv = document.getElementById('results');
 
-            if (name.length < 2 && title.length < 2) {
-                resDiv.innerHTML = `<p class='error'>${translations[lang].error_input}</p>`;
-                return;
-            }
-
-            resDiv.innerHTML = `<p class='message'>${translations[lang].status_searching}</p>`;
-            try {
-                const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
-                const result = await response.json();
-                if (result.status === "error") {
-                    resDiv.innerHTML = `<p class="error">${escapeHtml(result.message)}</p>`;
-                } else {
-                    let html = "";
-                    result.data.forEach(item => {
-                        html += `<div class="card">
-                            <div class="card-id"><span>${escapeHtml(item.id)}</span></div>
-                            <div class="card-details">
-                                <div><span>${translations[lang].label_date}</span>${escapeHtml(item.date)}</div>
-                                <div><span>${translations[lang].label_sender}</span>${escapeHtml(item.name)}</div>
-                                <div><span>${translations[lang].label_title}</span>${escapeHtml(item.title)}</div>
-                            </div>
-                        </div>`;
-                    });
-                    resDiv.innerHTML = html;
+                if (name.length < 2 && title.length < 2) {
+                    resDiv.innerHTML = `<p class='error'>${translations[lang].error_input}</p>`;
+                    return;
                 }
-            } catch (err) { resDiv.innerHTML = `<p class='error'>${translations[lang].error_connection}</p>`; }
-        }
+
+                resDiv.innerHTML = `<p class='message'>${translations[lang].status_searching}</p>`;
+                try {
+                    const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
+                    const result = await response.json();
+                    
+                    if (result.status === "error") {
+                        resDiv.innerHTML = `<p class="error">${escapeHtml(result.message)}</p>`;
+                    } else {
+                        let html = "";
+                        result.data.forEach(item => {
+                            // コピーアイコンを復活させました
+                            html += `<div class="card">
+                                <div class="card-id">
+                                    <span>${escapeHtml(item.id)}</span>
+                                    <span class="material-icons copy-icon" onclick="copyId('${escapeHtml(item.id)}', this)" title="コピー">content_copy</span>
+                                </div>
+                                <div class="card-details">
+                                    <div><span>${translations[lang].label_date}</span>${escapeHtml(item.date)}</div>
+                                    <div><span>${translations[lang].label_sender}</span>${escapeHtml(item.name)}</div>
+                                    <div><span>${translations[lang].label_title}</span>${escapeHtml(item.title)}</div>
+                                </div>
+                            </div>`;
+                        });
+                        resDiv.innerHTML = html;
+                    }
+                } catch (err) { resDiv.innerHTML = `<p class='error'>${translations[lang].error_connection}</p>`; }
+            }
     </script>
 </body>
 </html>
