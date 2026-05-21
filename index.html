@@ -100,15 +100,15 @@
             padding-bottom: 8px;
         }
 
-        .copy-btn {
-            background: transparent;
-            border: none;
-            cursor: pointer;
+/* ▼元の .copy-btn を消して、以下に差し替え▼ */
+        .copy-icon {
+            font-size: 24px;
             color: var(--text-sub);
-            display: flex;
-            align-items: center;
-            transition: 0.2s;
+            cursor: pointer;
+            transition: color 0.2s;
+            user-select: none; /* アイコン自体がテキスト選択されるのを防ぐ */
         }
+        .copy-icon:hover { color: var(--text-main); }
 .copy-btn:hover { color: var(--accent-color); }
         .copy-btn:hover { color: var(--text-main); border-color: var(--text-main); }
 
@@ -141,11 +141,15 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
 
-        function copyId(id, btn) {
+/* ▼元の copyId 関数を以下に差し替え▼ */
+        function copyId(id, iconEl) {
             navigator.clipboard.writeText(id).then(() => {
-                const originalText = btn.innerText;
-                btn.innerText = "Copied!";
-                setTimeout(() => btn.innerText = originalText, 1500);
+                iconEl.innerText = "check";
+                iconEl.style.color = "var(--accent-color)";
+                setTimeout(() => {
+                    iconEl.innerText = "content_copy";
+                    iconEl.style.color = "";
+                }, 1500);
             });
         }
 
@@ -169,9 +173,7 @@
                             <div class="card">
                                 <div class="card-id">
                                     <span>${item.id}</span>
-                                    <button class="copy-btn" onclick="copyId('${item.id}', this)">
-                                        <span class="material-icons" style="font-size: 18px;">content_copy</span>
-                                    </button>
+                                    <button class="copy-btn" onclick="copyId('${item.id}', this)">コピー</button>
                                 </div>
                                 <div class="card-details">
                                     <div><span>投函日</span>${item.date}</div>
