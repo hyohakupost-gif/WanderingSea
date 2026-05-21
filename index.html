@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>漂泊ノ海-ID照会システム</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0b1325; 
@@ -100,7 +100,7 @@
             padding-bottom: 8px;
         }
 
-/* ▼元の .copy-btn を消して、以下に差し替え▼ */
+        /* コピーアイコン用の設定（横幅が伸びない） */
         .copy-icon {
             font-size: 24px;
             color: var(--text-sub);
@@ -109,8 +109,6 @@
             user-select: none; /* アイコン自体がテキスト選択されるのを防ぐ */
         }
         .copy-icon:hover { color: var(--text-main); }
-.copy-btn:hover { color: var(--accent-color); }
-        .copy-btn:hover { color: var(--text-main); border-color: var(--text-main); }
 
         .card-details { font-size: 14px; color: var(--text-main); line-height: 1.8; }
         .card-details span { color: var(--text-sub); margin-right: 5px; display: inline-block; width: 60px; }
@@ -141,13 +139,13 @@
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLu7NbJI39q2DFQDR9qIbmcVamFIne5lvrJ6gxPRtkCfp2TmO69xUANcAOONZ0hW5Bzg/exec";
 
-/* ▼元の copyId 関数を以下に差し替え▼ */
+        // アイコン押下時のコピー処理
         function copyId(id, iconEl) {
             navigator.clipboard.writeText(id).then(() => {
-                iconEl.innerText = "check";
+                iconEl.innerText = "check"; // コピー完了時にチェックマークに変更
                 iconEl.style.color = "var(--accent-color)";
                 setTimeout(() => {
-                    iconEl.innerText = "content_copy";
+                    iconEl.innerText = "content_copy"; // 1.5秒後に元のアイコンに戻す
                     iconEl.style.color = "";
                 }, 1500);
             });
@@ -173,7 +171,7 @@
                             <div class="card">
                                 <div class="card-id">
                                     <span>${item.id}</span>
-                                    <button class="copy-btn" onclick="copyId('${item.id}', this)">コピー</button>
+                                    <span class="material-icons copy-icon" onclick="copyId('${item.id}', this)" title="コピー">content_copy</span>
                                 </div>
                                 <div class="card-details">
                                     <div><span>投函日</span>${item.date}</div>
