@@ -148,12 +148,22 @@
             color: var(--text-sub);
             letter-spacing: 1px;
         }
+        .description {
+            text-align: center;
+            color: var(--text-sub);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>漂泊ノ海 ID照会システム</h1>
-        
+<div class="description">
+    見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、<br>
+    該当のお手紙にたどり着くことが可能です。
+</div>
         <div class="search-box">
             <input type="text" id="name" placeholder="想い人の名前、または自身の名前">
             <input type="text" id="title" placeholder="手紙のタイトルに記した言葉">
@@ -179,7 +189,7 @@
             const title = document.getElementById('title').value;
             const resDiv = document.getElementById('results');
             
-            resDiv.innerHTML = "<p class='message'>水底を探しています...</p>";
+            resDiv.innerHTML = "<p class='message'>海を探しています...</p>";
 
             try {
                 const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`);
