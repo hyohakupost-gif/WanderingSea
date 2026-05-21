@@ -1,0 +1,34 @@
+{
+  "ja": {
+    "app_title": "漂泊ノ海 ID照会システム",
+    "description_part1": "見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、",
+    "description_part2": "該当のお手紙にたどり着くことが可能です。",
+    "link_how_to": "駅内でのID検索方法につきましては、こちらをご参照ください。",
+    "contact_info": "また、お手紙の削除やその他お問い合わせにつきましては、当駅駅長の XアカウントあてにDMにてお問い合わせください。",
+    "placeholder_name": "差出人のお名前",
+    "placeholder_title": "お手紙のタイトル",
+    "button_search": "手紙を探す",
+    "status_searching": "海を探しています...",
+    "error_input": "検索には、差出人または標題に2文字以上の入力が必要です。",
+    "error_connection": "接続が途切れました。少し時間をおいて再度お試しください。",
+    "label_date": "投函日",
+    "label_sender": "差出人",
+    "label_title": "標題"
+  },
+  "en": {
+    "app_title": "Wandering Sea - ID Retrieval System",
+    "description_part1": "By entering the ID of the found letter into the ID retrieval system within the Wandering Sea station, ",
+    "description_part2": "you can locate the corresponding letter.",
+    "link_how_to": "Please refer here for how to search by ID at the station.",
+    "contact_info": "For deletions of letters or other inquiries, please send a DM to the station master's X account.",
+    "placeholder_name": "Sender Name",
+    "placeholder_title": "Letter Title",
+    "button_search": "Search Letter",
+    "status_searching": "Searching the sea...",
+    "error_input": "Please enter at least 2 characters for the sender or title to search.",
+    "error_connection": "Connection lost. Please try again later.",
+    "label_date": "Date",
+    "label_sender": "Sender",
+    "label_title": "Title"
+  }
+}
