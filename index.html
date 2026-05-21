@@ -189,7 +189,7 @@
                             <div class="card">
                                 <div class="card-id">
                                     <span>${escapeHtml(item.id)}</span>
-                                    <span class="material-icons copy-icon" onclick="copyId('${escapeHtml(item.id)}', this)" title="コピー">content_copy</span>
+                                    <span class="material-icons copy-icon" data-id="${escapeHtml(item.id)}" title="コピー">content_copy</span>
                                 </div>
                                 <div class="card-details">
                                     <div><span>投函日</span>${escapeHtml(item.date)}</div>
@@ -199,6 +199,13 @@
                             </div>`;
                     });
                     resDiv.innerHTML = html;
+
+                    // 描画後にイベントリスナーを安全に付与する
+                    document.querySelectorAll('.copy-icon').forEach(icon => {
+                        icon.addEventListener('click', function() {
+                            copyId(this.dataset.id, this);
+                        });
+                    });
                 }
             } catch (err) { resDiv.innerHTML = "<p class='error'>接続が途切れました。少し時間をおいて再度お試しください。</p>"; }
         }
