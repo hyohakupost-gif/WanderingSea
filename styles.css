@@ -52,3 +52,20 @@ button:disabled { opacity: 0.6; cursor: wait; }
 .message { text-align: center; color: var(--text-sub); padding: 20px; }
 
 .error { text-align: center; color: #fca5a5; padding: 20px; }
+
+.update-status {
+    background-color: rgba(255, 255, 255, 0.05); /* 薄い背景色 */
+    border: 1px solid rgba(255, 255, 255, 0.2);   /* 枠線 */
+    border-radius: 8px;                         /* 角丸 */
+    padding: 15px;                              /* 内側の余白 */
+    margin: 25px 0 !important;                  /* 外側の余白 */
+}
+
+.update-status p {
+    margin: 5px 0;                              /* pタグ間の詰まりを調整 */
+}
+
+#last-update-time {
+    font-weight: bold;                          /* 日時を太字に */
+    color: var(--accent-color);                 /* 強調色（あれば） */
+}
