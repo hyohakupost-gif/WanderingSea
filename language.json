@@ -14,7 +14,7 @@
     "label_date": "投函日",
     "label_sender": "差出人",
     "label_title": "タイトル",
-    "status_update_label": "掲載処理を通過したお手紙の投函日時：",
+    "status_update_label": "最新の掲載状況（投函日時）：",
     "status_update_instruction": "万一、上記日時以前にご投函いただいたにもかかわらず、掲載が確認できない場合は、駅長までXのDMにてお問い合わせください。"
   },
   "en": {
@@ -32,7 +32,7 @@
     "label_date": "Date",
     "label_sender": "Sender",
     "label_title": "Title",
-    "status_update_label": "Latest post date processed:",
+    "status_update_label": "Latest Status (Post date):",
 "status_update_instruction": "If your letter was posted before this date but is not listed, please contact the Station Master via X (Twitter) DM."
   }
 }
