@@ -87,6 +87,7 @@ button:disabled { opacity: 0.6; cursor: wait; }
 /* 日時部分：ラベルが太字でも目立つように */
 #last-update-time {
     color: var(--accent-color, #ffffff); /* テーマカラーがあればそれに合わせる */
+    font-size: 12px;
 }
 
 /* 注意書き部分：フォントサイズを小さく（現在の0.9emからさらに小さく調整） */
