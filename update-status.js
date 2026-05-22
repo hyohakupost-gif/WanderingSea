@@ -1,18 +1,16 @@
 // update-status.js
 window.addEventListener('load', () => {
-    // config.js で定義された定数を参照
-    fetch(LAST_UPDATE_API_URL)
-        .then(res => {
-            if (!res.ok) throw new Error('Network error');
-            return res.json();
-        })
-        .then(data => {
-            const el = document.getElementById('last-update-time');
-            if (el) el.innerText = data.last_updated;
-        })
-        .catch(err => {
-            console.error('日時取得エラー:', err);
-            const el = document.getElementById('last-update-time');
-            if (el) el.innerText = 'Error';
-        });
+    // 既存のURLの末尾に ?callback=callback をつける
+    const url = LAST_UPDATE_API_URL + "?callback=callback";
+    
+    // JSONP読み込み用のスクリプトタグを動的に生成
+    const script = document.createElement('script');
+    script.src = url;
+    document.body.appendChild(script);
 });
+
+// GASから呼ばれるコールバック関数
+function callback(data) {
+    const el = document.getElementById('last-update-time');
+    if (el) el.innerText = data.last_updated;
+}
