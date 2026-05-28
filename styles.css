@@ -96,3 +96,22 @@ button:disabled { opacity: 0.6; cursor: wait; }
     opacity: 0.8;    /* 少しだけ文字を薄くしてメリハリを出す */
     margin: 0;
 }
+
+/* 追加リンク用のリンクをボタンっぽく見せるための設定 */
+#footer-links a {
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 0 5px;
+    background: var(--card-bg);
+    border: 1px solid var(--text-sub);
+    color: var(--text-main);
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+#footer-links a:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
