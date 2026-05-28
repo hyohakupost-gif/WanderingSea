@@ -13,7 +13,10 @@ function loadLinks(lang) {
                     const a = document.createElement('a');
                     a.href = url.trim();
                     a.textContent = text.trim();
-                    a.className = 'lang-switcher-link'; // 必要に応じて適宜調整してください
+                    a.className = 'lang-switcher-link';
+                    // 新規タブで開く設定を追加
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
                     container.appendChild(a);
                 }
             });
