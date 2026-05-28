@@ -13,6 +13,7 @@ function loadLinks(lang) {
                     const a = document.createElement('a');
                     a.href = url.trim();
                     a.textContent = text.trim();
+                    a.className = 'lang-switcher-link'; // 必要に応じて適宜調整してください
                     container.appendChild(a);
                 }
             });
