@@ -38,7 +38,6 @@ async function search() {
     try {
         const response = await fetch(`${SCRIPT_URL}?name=${encodeURIComponent(name)}&title=${encodeURIComponent(title)}`, { signal });
         const result = await response.json();
-        console.log("RESULT=", result);
         if (signal.aborted) return;
         resultsDiv.innerHTML = "";
 
