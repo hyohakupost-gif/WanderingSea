@@ -27,7 +27,7 @@ async function search() {
     const title = titleInput.value.trim();
     resultsDiv.innerHTML = "";
 
-    if (name.length < 2 && title.length < 2) {
+    if (name.length < 1 && title.length < 1) {
         resultsDiv.innerHTML = `<p class="error">${escapeHtml(translations[lang].error_input)}</p>`;
         return;
     }
