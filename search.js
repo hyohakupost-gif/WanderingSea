@@ -43,7 +43,7 @@ async function search() {
         resultsDiv.innerHTML = "";
 
         if (result.status === "error") {
-            resultsDiv.innerHTML = `<p class="error">${escapeHtml(result.message)}</p>`;
+            resultsDiv.innerHTML = `<p class="error">${escapeHtml(result.message).replace(/\n/g, "<br>")}</p>`;
             return;
         }
         if (!result.data || result.data.length === 0) {
