@@ -115,3 +115,24 @@ button:disabled { opacity: 0.6; cursor: wait; }
     background: var(--accent-color);
     color: var(--bg-color);
 }
+
+/* 既存の言語ボタンとスタイルを完全に統一 */
+.lang-switcher a {
+    width: auto;
+    padding: 8px 20px;
+    margin: 0 5px;
+    background: var(--card-bg);
+    border: 1px solid var(--text-sub);
+    color: var(--text-main);
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lang-switcher a:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
