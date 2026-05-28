@@ -1,11 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('link.txt')
+// link-loader.js
+function loadLinks(lang) {
+    const fileName = `link_${lang}.txt`;
+    fetch(fileName)
         .then(response => response.text())
         .then(data => {
             const container = document.getElementById('footer-links');
-            // 空行を除外し、各行を処理
+            container.innerHTML = ''; // 一度中身をクリア
             const lines = data.split('\n').filter(line => line.trim() !== '');
-            
             lines.forEach(line => {
                 const [text, url] = line.split(',');
                 if (text && url) {
@@ -15,6 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     container.appendChild(a);
                 }
             });
-        })
-        .catch(err => console.error('リンクの読み込みに失敗しました:', err));
+        });
+}
+
+// 初期ロード
+document.addEventListener('DOMContentLoaded', () => {
+    // 現在の言語設定に合わせてロード（デフォルトはjaと想定）
+    const currentLang = localStorage.getItem('lang') || 'ja';
+    loadLinks(currentLang);
 });
