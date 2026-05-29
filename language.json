@@ -1,7 +1,7 @@
 {
   "ja": {
     "app_title": "漂泊ノ海 ID照会システム",
-    "description_part1": "見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、",
+    "description_part1": "漂泊ノ海のお手紙に割り振られたIDを検索するシステムです。<br>見つかったお手紙のIDを漂泊ノ海駅内のID照会システムに入力して検索いただくことで、",
     "description_part2": "該当のお手紙にたどり着くことが可能です。",
     "link_how_to": "こちら",
     "description_tail": "駅内でのID検索方法につきましては、[link_how_to]をご参照ください。<br><br>また、お手紙の削除やその他お問い合わせにつきましては、当駅駅長の<a href=\"https://x.com/hyohakupost\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: var(--accent-color);\"> Xアカウント</a>あてにDMにてお問い合わせください。",
@@ -19,7 +19,7 @@
   },
   "en": {
     "app_title": "Wandering Sea - ID Retrieval System",
-    "description_part1": "By entering the ID of the found letter into the ID retrieval system within the Wandering Sea station,",
+    "description_part1": "This is a system to search for IDs assigned to letters in the WanderingSea.<br>By entering the ID of the found letter into the ID retrieval system within the Wandering Sea station,",
     "description_part2": "you can locate the corresponding letter.",
     "link_how_to": "here",
     "description_tail": "Please refer [link_how_to] for how to search by ID at the station.<br><br>For deletions of letters or other inquiries, please send a DM to the station master's <a href=\"https://x.com/hyohakupost\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"color: var(--accent-color);\">X account</a>.",
