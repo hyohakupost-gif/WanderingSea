@@ -16,7 +16,7 @@ function setLang(lang) {
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) el.innerText = translations[lang][key];
+        if (translations[lang][key]) setTextWithLineBreaks(el, translations[lang][key]);
     });
 
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -34,3 +34,12 @@ function setLang(lang) {
 }
 
 window.addEventListener('load', loadLanguage);
+
+function setTextWithLineBreaks(el, text) {
+    el.replaceChildren();
+
+    String(text).split(/<br\s*\/?>/i).forEach((part, index) => {
+        if (index > 0) el.appendChild(document.createElement('br'));
+        el.appendChild(document.createTextNode(part));
+    });
+}
