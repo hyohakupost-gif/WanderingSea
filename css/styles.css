@@ -1,0 +1,138 @@
+:root {
+    --bg-color: #0b1325;
+    --text-main: #e2e8f0;
+    --text-sub: #94a3b8;
+    --accent-color: #60a5fa;
+    --card-bg: rgba(255,255,255,0.05);
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container { max-width: 600px; width: 100%; }
+
+h1 { text-align: center; font-weight: 300; letter-spacing: 3px; margin-bottom: 40px; color: var(--text-main); }
+
+.description { text-align: center; color: var(--text-sub); margin-bottom: 30px; line-height: 1.6; font-size: 0.9em; }
+
+.search-box { background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); margin-bottom: 30px; }
+
+input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #334155; border-radius: 6px; background: rgba(0,0,0,0.2); color: var(--text-main); font-size: 16px; box-sizing: border-box; }
+
+button { width: 100%; padding: 12px; background-color: var(--accent-color); color: #0b1325; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+
+button:disabled { opacity: 0.6; cursor: wait; }
+
+.card { background: var(--card-bg); border-left: 4px solid var(--accent-color); padding: 20px; border-radius: 8px; margin-bottom: 15px; }
+
+.card-id { font-size: 28px; font-weight: bold; color: var(--accent-color); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+
+.copy-icon { font-size: 24px; color: var(--text-sub); cursor: pointer; transition: color 0.2s; user-select: none; }
+
+.copy-icon:hover { color: var(--text-main); }
+
+.card-details { line-height: 1.8; }
+
+.card-details span { color: var(--text-sub); margin-right: 5px; display: inline-block; width: 80px; }
+
+.lang-switcher { text-align: center; margin-top: 40px; margin-bottom: 20px; }
+
+.lang-switcher button { width: auto; padding: 8px 20px; margin: 0 5px; background: var(--card-bg); border: 1px solid var(--text-sub); color: var(--text-main); border-radius: 20px; }
+
+.lang-switcher button:hover { background: var(--accent-color); color: var(--bg-color); }
+
+.message { text-align: center; color: var(--text-sub); padding: 20px; }
+
+.error { text-align: center; color: #fca5a5; padding: 20px; }
+
+.update-status {
+    background-color: rgba(255, 255, 255, 0.05); /* 薄い背景色 */
+    border: 1px solid rgba(255, 255, 255, 0.2);   /* 枠線 */
+    border-radius: 8px;                         /* 角丸 */
+    padding: 15px;                              /* 内側の余白 */
+    margin: 25px 0 !important;                  /* 外側の余白 */
+}
+
+.update-status p {
+    margin: 5px 0;                              /* pタグ間の詰まりを調整 */
+}
+
+#last-update-time {
+    font-weight: bold;                          /* 日時を太字に */
+    color: var(--accent-color);                 /* 強調色（あれば） */
+}
+
+.update-status {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 25px 0 !important;
+}
+
+/* ラベル部分：太字にして強調 */
+.update-status p:first-child {
+    font-weight: bold;
+    margin-bottom: 8px; /* ラベルと注意書きの間に少し余裕を持たせる */
+}
+
+/* 日時部分：ラベルが太字でも目立つように */
+#last-update-time {
+    color: var(--accent-color, #ffffff); /* テーマカラーがあればそれに合わせる */
+    font-size: 16px;
+}
+
+/* 注意書き部分：フォントサイズを小さく（現在の0.9emからさらに小さく調整） */
+.update-status p:last-child {
+    font-size: 0.8em; /* 2pt分小さくするイメージ */
+    opacity: 0.8;    /* 少しだけ文字を薄くしてメリハリを出す */
+    margin: 0;
+}
+
+/* 追加リンク用のリンクをボタンっぽく見せるための設定 */
+#footer-links a {
+    display: inline-block;
+    padding: 8px 20px;
+    margin: 0 5px;
+    background: var(--card-bg);
+    border: 1px solid var(--text-sub);
+    color: var(--text-main);
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+#footer-links a:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+
+/* 既存の言語ボタンとスタイルを完全に統一 */
+.lang-switcher a {
+    width: auto;
+    padding: 8px 20px;
+    margin: 0 5px;
+    background: var(--card-bg);
+    border: 1px solid var(--text-sub);
+    color: var(--text-main);
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lang-switcher a:hover {
+    background: var(--accent-color);
+    color: var(--bg-color);
+}

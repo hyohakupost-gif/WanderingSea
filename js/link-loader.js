@@ -1,6 +1,6 @@
 // link-loader.js
 function loadLinks(lang) {
-    const fileName = `link_${lang}.txt`;
+    const fileName = `link/link_${lang}.txt`;
     fetch(fileName)
         .then(response => response.text())
         .then(data => {
