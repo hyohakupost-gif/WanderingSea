@@ -1,78 +1,92 @@
-# Project Structure
+# プロジェクト構成
 
-## Frontend
-- index.html
-- js/*
-- css/*
-- lang/*
-- link/*
+## フロントエンド
 
-This frontend is deployed via GitHub Pages.
+- `index.html`
+- `js/*`
+- `css/*`
+- `lang/*`
+- `link/*`
 
-## Google Apps Script Backend
-- gas/*
-- Apps Script source code managed via clasp
+このフロントエンドは GitHub Pages で配信されます。
 
-The `gas` directory contains the backend source code deployed to Google Apps Script.
+## Google Apps Script バックエンド
 
-## Architecture
+- `gas/*`
+- Apps Script のソースコードは clasp で管理します。
 
-This project consists of two tightly coupled parts:
+`gas` ディレクトリには、Google Apps Script にデプロイされるバックエンドのソースコードが含まれます。
 
-1. Frontend (GitHub Pages)
-2. Google Apps Script backend (`gas/*`)
+## アーキテクチャ
 
-Changes to one side may require corresponding changes to the other side.
+このプロジェクトは、密に連携する 2 つの要素で構成されています。
 
-Always review both frontend and backend impacts before completing a task.
+1. フロントエンド（GitHub Pages）
+2. Google Apps Script バックエンド（`gas/*`）
 
-## Development Rules
+片方の変更が、もう片方の変更を必要とする場合があります。
 
-### When modifying files under `gas/`
+タスクを完了する前に、必ずフロントエンドとバックエンドの両方への影響を確認してください。
 
-1. Check whether request parameters have changed.
-2. Check whether response formats have changed.
-3. If API behavior changes, update frontend code accordingly.
-4. If API behavior changes, update `docs/gas-api.md`.
-5. Do not remove or modify `appsscript.json` unless explicitly requested.
+## 開発ルール
 
-### When modifying frontend code
+### `gas/` 配下のファイルを変更する場合
 
-1. Check whether any Google Apps Script endpoint is affected.
-2. Check whether API request parameters are still correct.
-3. Check whether API response parsing is still correct.
-4. Keep frontend and backend implementations consistent.
+1. リクエストパラメータが変更されていないか確認する。
+2. レスポンス形式が変更されていないか確認する。
+3. API の挙動が変わる場合は、必要に応じてフロントエンドのコードも更新する。
+4. API の挙動が変わる場合は、`docs/gas-api.md` を更新する。
+5. 明示的に依頼されていない限り、`appsscript.json` は削除・変更しない。
 
-## Deployment
+### フロントエンドのコードを変更する場合
 
-### Frontend
+1. Google Apps Script のエンドポイントに影響がないか確認する。
+2. API リクエストパラメータが引き続き正しいか確認する。
+3. API レスポンスの解析処理が引き続き正しいか確認する。
+4. フロントエンドとバックエンドの実装を一貫させる。
+
+## デプロイ
+
+### フロントエンド
+
 - GitHub Pages
 
-### Backend
+### バックエンド
+
 - Google Apps Script
-- Managed via clasp
-- Source code located in `gas/*`
+- clasp で管理
+- ソースコードは `gas/*` に配置
 
-## Safety Rules
+## 安全ルール
 
-Before completing a task that affects API communication:
+API 通信に影響するタスクを完了する前に、以下を確認してください。
 
-- Verify frontend requests match backend expectations.
-- Verify backend responses match frontend expectations.
-- Highlight any required changes on the opposite side if they are not implemented.
+- フロントエンドのリクエストがバックエンドの期待と一致していること。
+- バックエンドのレスポンスがフロントエンドの期待と一致していること。
+- 反対側に必要な変更があるのに未実装の場合は、その点を明示すること。
 
-## Documentation
+## ドキュメント
 
-If API behavior, request parameters, response formats, or endpoint behavior changes:
+API の挙動、リクエストパラメータ、レスポンス形式、エンドポイントの挙動が変わる場合:
 
-- Update `docs/gas-api.md`
-- Mention the API change in the task summary
+- `docs/gas-api.md` を更新する。
+- タスクの要約で API 変更に触れる。
 
-## Important
+実装や運用の判断に迷う場合は、必要に応じて以下のドキュメントも参照してください。
 
-This project is maintained with AI-assisted development (Codex).
+- `docs/architecture.md`
+- `docs/frontend-flow.md`
+- `docs/data-model.md`
+- `docs/deployment.md`
+- `docs/operations.md`
+- `docs/i18n.md`
+- `docs/testing-checklist.md`
 
-When implementing features, prefer consistency and compatibility over large refactors.
+## 重要事項
 
-Do not rewrite unrelated code.
-Do not change API contracts unless necessary.
+このプロジェクトは AI 支援開発（Codex）で保守されています。
+
+機能を実装する際は、大きなリファクタよりも、既存実装との一貫性と互換性を優先してください。
+
+無関係なコードを書き換えないでください。
+必要がない限り、API 契約を変更しないでください。

@@ -15,7 +15,13 @@ WanderingSea/
 │   └── styles.css
 ├── docs/
 │   ├── architecture.md
-│   └── gas-api.md
+│   ├── data-model.md
+│   ├── deployment.md
+│   ├── frontend-flow.md
+│   ├── i18n.md
+│   ├── operations.md
+│   ├── gas-api.md
+│   └── testing-checklist.md
 ├── gas/
 │   ├── .clasp.json
 │   ├── IDSearchSystem.js
@@ -53,6 +59,12 @@ WanderingSea/
 | `gas/appsscript.json` | Apps Script の実行設定。タイムゾーン、V8 ランタイム、Web App 公開設定を定義する。 |
 | `gas/.clasp.json` | clasp 管理用設定。Apps Script の `scriptId` と対象拡張子を保持する。 |
 | `docs/gas-api.md` | フロントエンドが利用する GAS API 仕様。検索 API と最新更新日時 API の契約を記載する。 |
+| `docs/frontend-flow.md` | フロントエンドの初期表示、言語切替、検索、コピー、リンク読み込みのイベントフローを記載する。 |
+| `docs/data-model.md` | Google Spreadsheet の検索用シート、列定義、API レコード、キャッシュ、ID の扱いを記載する。 |
+| `docs/deployment.md` | GitHub Pages と clasp/GAS のデプロイ観点、URL 更新手順、リリース前確認を記載する。 |
+| `docs/operations.md` | 通常運用、手紙データ更新、最新掲載状況、問い合わせ、障害時確認ポイントを記載する。 |
+| `docs/i18n.md` | 翻訳キー、HTML との対応、言語別リンク、文言追加手順を記載する。 |
+| `docs/testing-checklist.md` | 変更後の手動テスト項目、API 疎通確認、表示確認、リリース前最小確認を記載する。 |
 | `AGENTS.md` | Codex がこのリポジトリで作業する際のプロジェクトルール。 |
 | `README.md` | プロジェクト名のみを記載する簡易 README。 |
 
@@ -323,7 +335,7 @@ WanderingSea/
 - `docs/gas-api.md` と実装のエラーメッセージ差分をどちらに寄せるべきか。
 - `description_tail` に HTML を含める運用を継続するか。
 
-## 次に作るべきドキュメント案
+## 作成済みドキュメント
 
 1. `docs/frontend-flow.md`
    - 初期表示、言語切替、検索、コピー、リンク読み込みのイベントフローを図付きで整理する。
@@ -342,3 +354,14 @@ WanderingSea/
 
 6. `docs/testing-checklist.md`
    - 変更後に確認すべき手動テスト項目、API 疎通確認、表示確認、言語切替確認をまとめる。
+
+## 次に作るべきドキュメント案
+
+1. `docs/security.md`
+   - JSONP、HTML を含む翻訳文、公開 GAS URL、Cloudflare Web Analytics、外部リンクの安全性を整理する。
+
+2. `docs/api-error-handling.md`
+   - `status: "error"`、`status: "debug_error"`、通信失敗、該当なし、30 件超過時の表示仕様を整理する。
+
+3. `docs/spreadsheet-maintenance.md`
+   - 検索用シートの更新手順、列変更禁止事項、ID 文字列維持、キャッシュ影響を運用担当者向けに整理する。
